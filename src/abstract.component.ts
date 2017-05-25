@@ -105,6 +105,9 @@ export abstract class AbstractComponent {
             this._onDragEnter(event);
         };
         this._elem.ondragover = (event: DragEvent) => {
+            // stop propagation, use case for this is mixing up nested elements
+            event.stopPropagation();
+
             this._onDragOver(event);
             //
             if (event.dataTransfer != null) {
@@ -126,6 +129,10 @@ export abstract class AbstractComponent {
             this._target = event.target;
         };
         this._elem.ondragstart = (event: DragEvent) => {
+
+            // stop propagation, use case for this is mixing up nested elements
+            event.stopPropagation();
+
             if (this._dragHandle) {
                 if (!this._dragHandle.contains(<Element>this._target)) {
                     event.preventDefault();
